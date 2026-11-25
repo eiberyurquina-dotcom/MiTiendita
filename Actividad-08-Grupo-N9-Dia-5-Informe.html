@@ -1,0 +1,1053 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102a24">
+  <meta name="description" content="Informe de presentación de Mi tiendita, una aplicación móvil para inventario, ventas y reconocimiento visual de productos con IA.">
+  <title>Mi tiendita | Informe de presentación</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17352d;
+      --muted: #64776f;
+      --green: #187653;
+      --green-dark: #102a24;
+      --mint: #dff3e9;
+      --lime: #d8f36a;
+      --paper: #f5f8f4;
+      --white: #fff;
+      --line: #dce7df;
+      --amber: #f0b34b;
+      --shadow: 0 24px 70px rgba(16, 42, 36, .12);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; }
+
+    button { font: inherit; }
+
+    .progress {
+      position: fixed;
+      z-index: 20;
+      inset: 0 auto auto 0;
+      width: 0;
+      height: 4px;
+      background: var(--lime);
+    }
+
+    .topbar {
+      position: sticky;
+      z-index: 10;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 14px max(24px, calc((100vw - 1180px) / 2));
+      border-bottom: 1px solid rgba(220, 231, 223, .8);
+      background: rgba(255, 255, 255, .92);
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--green-dark);
+      font-size: .94rem;
+      font-weight: 850;
+      letter-spacing: -.02em;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 11px;
+      background: var(--green);
+      color: white;
+    }
+
+    .topbar nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      overflow-x: auto;
+      color: var(--muted);
+      font-size: .82rem;
+      font-weight: 700;
+      scrollbar-width: none;
+    }
+
+    .topbar nav::-webkit-scrollbar { display: none; }
+    .topbar nav a { text-decoration: none; white-space: nowrap; }
+    .topbar nav a:hover { color: var(--green); }
+
+    .print-button {
+      flex: 0 0 auto;
+      border: 0;
+      border-radius: 999px;
+      padding: 9px 15px;
+      background: var(--green-dark);
+      color: white;
+      cursor: pointer;
+      font-size: .82rem;
+      font-weight: 800;
+    }
+
+    main { overflow: hidden; }
+
+    .wrap {
+      width: min(1120px, calc(100% - 48px));
+      margin-inline: auto;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 620px;
+      display: grid;
+      align-items: center;
+      overflow: hidden;
+      padding: 80px 0;
+      background:
+        radial-gradient(ellipse at 86% 30%, rgba(216, 243, 106, .16), transparent 28%),
+        radial-gradient(ellipse at 70% 100%, rgba(24, 118, 83, .3), transparent 42%),
+        var(--green-dark);
+      color: white;
+    }
+
+    .hero::after {
+      position: absolute;
+      right: -120px;
+      bottom: -240px;
+      width: 600px;
+      height: 600px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 50%;
+      box-shadow: 0 0 0 56px rgba(255, 255, 255, .025), 0 0 0 112px rgba(255, 255, 255, .02);
+      content: "";
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(280px, .75fr);
+      align-items: center;
+      gap: 56px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 20px;
+      color: var(--lime);
+      font-size: .76rem;
+      font-weight: 850;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 24px;
+      height: 2px;
+      background: currentColor;
+      content: "";
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      max-width: 720px;
+      margin-bottom: 22px;
+      font-size: clamp(3rem, 7vw, 5.75rem);
+      line-height: .98;
+      letter-spacing: -.075em;
+    }
+
+    h1 span { color: var(--lime); }
+
+    .hero-copy {
+      max-width: 620px;
+      margin-bottom: 30px;
+      color: #c6d9d0;
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .button-primary, .button-quiet {
+      display: inline-flex;
+      min-height: 46px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 0 19px;
+      font-size: .9rem;
+      font-weight: 850;
+      text-decoration: none;
+    }
+
+    .button-primary { background: var(--lime); color: var(--green-dark); }
+    .button-quiet { border: 1px solid rgba(255, 255, 255, .26); color: white; }
+
+    .hero-note {
+      margin: 25px 0 0;
+      color: #91aca0;
+      font-size: .8rem;
+    }
+
+    .phone-wrap {
+      position: relative;
+      width: min(100%, 300px);
+      justify-self: center;
+      padding: 11px;
+      border: 1px solid rgba(255, 255, 255, .34);
+      border-radius: 38px;
+      background: #0c201b;
+      box-shadow: 0 36px 80px rgba(0, 0, 0, .35);
+      transform: rotate(3deg);
+    }
+
+    .phone-screen {
+      min-height: 430px;
+      overflow: hidden;
+      border-radius: 28px;
+      padding: 19px 16px;
+      background: #f5f8f4;
+      color: var(--ink);
+    }
+
+    .phone-notch {
+      width: 70px;
+      height: 15px;
+      margin: -19px auto 16px;
+      border-radius: 0 0 12px 12px;
+      background: #0c201b;
+    }
+
+    .phone-kicker { color: var(--green); font-size: .54rem; font-weight: 900; letter-spacing: .12em; }
+    .phone-title { margin: 3px 0 15px; font-size: 1.18rem; font-weight: 900; letter-spacing: -.04em; }
+    .phone-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 17px; }
+    .phone-stat { border-radius: 10px; padding: 9px 6px; background: white; text-align: center; }
+    .phone-stat strong { display: block; font-size: .87rem; }
+    .phone-stat span { display: block; color: var(--muted); font-size: .52rem; }
+    .phone-section { margin-bottom: 9px; font-size: .72rem; font-weight: 900; }
+    .phone-item { display: flex; align-items: center; gap: 9px; margin-bottom: 8px; border: 1px solid #e8eee8; border-radius: 12px; padding: 8px; background: white; }
+    .phone-product {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      flex: 0 0 auto;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--mint);
+      color: var(--green);
+      font-size: 1.1rem;
+    }
+    .phone-item strong { display: block; font-size: .66rem; }
+    .phone-item span { display: block; color: var(--muted); font-size: .55rem; }
+    .phone-price { margin-left: auto; font-size: .62rem; font-weight: 900; }
+    .phone-scan { margin-top: 12px; border-radius: 11px; padding: 10px; background: var(--green); color: white; text-align: center; font-size: .68rem; font-weight: 850; }
+    .phone-tabs { display: flex; justify-content: space-around; margin-top: 13px; color: var(--muted); font-size: .54rem; font-weight: 800; }
+
+    .hero-stamp {
+      position: absolute;
+      right: -23px;
+      bottom: 55px;
+      display: grid;
+      width: 105px;
+      height: 105px;
+      place-items: center;
+      border: 1px solid rgba(16, 42, 36, .08);
+      border-radius: 50%;
+      background: var(--lime);
+      color: var(--green-dark);
+      font-size: .7rem;
+      font-weight: 950;
+      line-height: 1.2;
+      text-align: center;
+      transform: rotate(9deg);
+    }
+
+    .section { padding: 88px 0; }
+    .section-white { background: white; }
+    .section-dark { background: var(--green-dark); color: white; }
+
+    .section-heading {
+      display: grid;
+      grid-template-columns: .75fr 1.25fr;
+      align-items: end;
+      gap: 35px;
+      margin-bottom: 38px;
+    }
+
+    .section-heading .eyebrow { color: var(--green); }
+    .section-dark .section-heading .eyebrow { color: var(--lime); }
+
+    h2 {
+      margin-bottom: 0;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1.05;
+      letter-spacing: -.06em;
+    }
+
+    .section-lead {
+      max-width: 600px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.04rem;
+    }
+
+    .section-dark .section-lead { color: #b6cbc1; }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 22px;
+    }
+
+    .intro-card, .info-card, .capability, .step-card, .tech-card, .delivery-card {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: white;
+      box-shadow: 0 10px 32px rgba(16, 42, 36, .04);
+    }
+
+    .intro-card { padding: 29px; }
+    .intro-card p:last-child { margin-bottom: 0; }
+
+    .quote-card {
+      display: flex;
+      min-height: 100%;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 0;
+      background: var(--mint);
+    }
+
+    .quote-card blockquote {
+      margin: 20px 0;
+      font-size: 1.48rem;
+      font-weight: 800;
+      line-height: 1.3;
+      letter-spacing: -.04em;
+    }
+
+    .quote-card cite { color: var(--green); font-size: .85rem; font-style: normal; font-weight: 800; }
+
+    .capability-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .capability { min-height: 230px; padding: 23px; }
+    .capability-icon {
+      display: grid;
+      width: 43px;
+      height: 43px;
+      place-items: center;
+      margin-bottom: 24px;
+      border-radius: 14px;
+      background: var(--mint);
+      color: var(--green);
+      font-size: 1.2rem;
+      font-weight: 900;
+    }
+    .capability h3 { margin-bottom: 8px; font-size: 1.06rem; letter-spacing: -.03em; }
+    .capability p { margin: 0; color: var(--muted); font-size: .91rem; }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      counter-reset: flow;
+    }
+
+    .step-card {
+      position: relative;
+      min-height: 220px;
+      padding: 23px;
+      counter-increment: flow;
+    }
+
+    .step-card::before {
+      display: block;
+      margin-bottom: 31px;
+      color: var(--green);
+      content: "0" counter(flow);
+      font-size: .78rem;
+      font-weight: 950;
+      letter-spacing: .12em;
+    }
+
+    .step-card:not(:last-child)::after {
+      position: absolute;
+      top: 29px;
+      right: -11px;
+      z-index: 2;
+      width: 20px;
+      height: 20px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: white;
+      color: var(--green);
+      content: "›";
+      font-size: 1rem;
+      font-weight: 900;
+      line-height: 18px;
+      text-align: center;
+    }
+
+    .step-card h3 { margin-bottom: 8px; font-size: 1rem; }
+    .step-card p { margin: 0; color: var(--muted); font-size: .88rem; }
+
+    .ai-layout {
+      display: grid;
+      grid-template-columns: 1fr .85fr;
+      align-items: center;
+      gap: 52px;
+    }
+
+    .ai-layout .eyebrow { color: var(--lime); }
+    .ai-copy { color: #bdd0c7; }
+    .ai-copy strong { color: white; }
+
+    .ai-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .ai-stat {
+      min-height: 132px;
+      border: 1px solid rgba(255, 255, 255, .13);
+      border-radius: 17px;
+      padding: 20px;
+      background: rgba(255, 255, 255, .055);
+    }
+
+    .ai-stat strong { display: block; color: var(--lime); font-size: 2rem; line-height: 1.1; letter-spacing: -.06em; }
+    .ai-stat span { display: block; margin-top: 8px; color: #bdd0c7; font-size: .81rem; }
+
+    .class-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .class-chip { border: 1px solid rgba(255, 255, 255, .2); border-radius: 999px; padding: 6px 10px; color: #e0ece5; font-size: .76rem; }
+
+    .callout {
+      margin-top: 26px;
+      border-left: 3px solid var(--lime);
+      padding: 11px 15px;
+      background: rgba(255, 255, 255, .055);
+      color: #d2e0d9;
+      font-size: .88rem;
+    }
+
+    .control-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .info-card { padding: 25px; }
+    .info-card h3 { margin-bottom: 10px; font-size: 1.07rem; }
+    .info-card p { margin-bottom: 0; color: var(--muted); font-size: .91rem; }
+    .info-card ul { margin: 13px 0 0; padding-left: 19px; color: var(--muted); font-size: .9rem; }
+    .info-card li + li { margin-top: 6px; }
+    .info-card .mini-label { display: block; margin-bottom: 12px; color: var(--green); font-size: .72rem; font-weight: 950; letter-spacing: .11em; text-transform: uppercase; }
+
+    .architecture {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .tech-card {
+      min-height: 190px;
+      padding: 23px;
+      background: #f7faf7;
+      box-shadow: none;
+    }
+
+    .tech-card span { display: block; margin-bottom: 13px; color: var(--green); font-size: .76rem; font-weight: 950; letter-spacing: .1em; text-transform: uppercase; }
+    .tech-card h3 { margin-bottom: 8px; font-size: 1.05rem; }
+    .tech-card p { margin: 0; color: var(--muted); font-size: .88rem; }
+
+    .notice {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 15px;
+      align-items: start;
+      margin-top: 20px;
+      border: 1px solid #f1dfb8;
+      border-radius: 16px;
+      padding: 19px;
+      background: #fff9eb;
+      color: #654d1f;
+    }
+
+    .notice-mark { display: grid; width: 30px; height: 30px; place-items: center; border-radius: 50%; background: #f7e5bf; font-weight: 950; }
+    .notice p { margin: 0; font-size: .88rem; }
+
+    .delivery {
+      display: grid;
+      grid-template-columns: 1fr .85fr;
+      gap: 18px;
+    }
+
+    .delivery-card { padding: 27px; }
+    .delivery-card h3 { margin-bottom: 17px; font-size: 1.18rem; }
+
+    .spec-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid var(--line);
+      padding: 11px 0;
+      font-size: .88rem;
+    }
+
+    .spec-row:last-child { border-bottom: 0; }
+    .spec-row span:first-child { color: var(--muted); }
+    .spec-row span:last-child { font-weight: 800; text-align: right; }
+
+    code {
+      border-radius: 6px;
+      padding: 2px 6px;
+      background: #edf3ee;
+      color: #17593e;
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: .9em;
+    }
+
+    .command {
+      display: block;
+      overflow-wrap: anywhere;
+      margin-top: 13px;
+      border-radius: 12px;
+      padding: 14px;
+      background: #122a23;
+      color: #e4f2e9;
+      font-size: .78rem;
+      line-height: 1.7;
+    }
+
+    .roadmap {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .roadmap-card { border-top: 2px solid var(--lime); padding: 20px 5px 0; }
+    .roadmap-card span { color: var(--lime); font-size: .73rem; font-weight: 950; letter-spacing: .1em; text-transform: uppercase; }
+    .roadmap-card h3 { margin: 10px 0 7px; color: white; font-size: 1.03rem; }
+    .roadmap-card p { margin: 0; color: #b6cbc1; font-size: .86rem; }
+
+    footer {
+      padding: 28px 0;
+      background: #0b211b;
+      color: #a7bdb2;
+      font-size: .79rem;
+    }
+
+    .footer-row { display: flex; justify-content: space-between; gap: 18px; }
+
+    @media (max-width: 850px) {
+      .topbar { flex-wrap: wrap; padding-inline: 20px; }
+      .topbar nav { order: 3; width: 100%; padding-bottom: 2px; }
+      .hero-grid, .section-heading, .intro-grid, .ai-layout, .delivery { grid-template-columns: 1fr; }
+      .hero { min-height: auto; padding: 68px 0 80px; }
+      .hero-grid { gap: 46px; }
+      .phone-wrap { width: min(78%, 290px); }
+      .hero-stamp { right: -10px; bottom: 36px; width: 88px; height: 88px; }
+      .section { padding: 68px 0; }
+      .section-heading { align-items: start; gap: 18px; }
+      .capability-grid { grid-template-columns: repeat(2, 1fr); }
+      .steps { grid-template-columns: repeat(2, 1fr); }
+      .step-card:nth-child(2)::after { display: none; }
+      .architecture { grid-template-columns: 1fr; }
+      .tech-card { min-height: auto; }
+    }
+
+    @media (max-width: 560px) {
+      .wrap { width: min(100% - 34px, 1120px); }
+      .topbar { gap: 10px; padding: 11px 17px; }
+      .topbar nav { gap: 15px; font-size: .78rem; }
+      .print-button { padding: 8px 12px; }
+      .brand { font-size: .85rem; }
+      .hero { padding: 58px 0 70px; }
+      .hero-grid { grid-template-columns: 1fr; }
+      h1 { font-size: clamp(2.85rem, 15vw, 4.1rem); }
+      .phone-wrap { width: min(82%, 280px); }
+      .section { padding: 58px 0; }
+      .capability-grid, .steps, .control-grid, .ai-stats, .roadmap { grid-template-columns: 1fr; }
+      .capability { min-height: auto; }
+      .step-card { min-height: auto; }
+      .step-card::before { margin-bottom: 18px; }
+      .step-card::after { display: none; }
+      .ai-layout { gap: 28px; }
+      .ai-stat { min-height: 110px; }
+      .footer-row { flex-direction: column; }
+    }
+
+    @media print {
+      @page { size: A4; margin: 14mm; }
+      body { background: white; font-size: 10pt; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .progress, .topbar, .hero-actions { display: none !important; }
+      .hero { min-height: 0; padding: 22mm 0; break-after: page; }
+      .hero-grid { grid-template-columns: 1.2fr .8fr; gap: 20px; }
+      .phone-wrap { width: 220px; }
+      .phone-screen { min-height: 350px; }
+      .section { padding: 14mm 0; }
+      .section, .capability, .step-card, .info-card, .tech-card, .delivery-card { break-inside: avoid; }
+      .section-heading { margin-bottom: 20px; }
+      .capability-grid { grid-template-columns: repeat(3, 1fr); }
+      .capability { min-height: 0; padding: 15px; }
+      .steps { grid-template-columns: repeat(4, 1fr); }
+      .step-card { min-height: 0; padding: 14px; }
+      .control-grid, .architecture { grid-template-columns: repeat(2, 1fr); }
+      .delivery { grid-template-columns: 1fr 1fr; }
+      a { text-decoration: none; }
+      footer { break-before: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="Mi tiendita, ir al inicio">
+      <span class="brand-mark" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M4 9.5h16l-1.3 10H5.3L4 9.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M8 9.5 12 4l4 5.5M9 13v3m6-3v3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      Mi tiendita <span style="font-weight:600;color:#64776f">/ Informe</span>
+    </a>
+    <nav aria-label="Secciones del informe">
+      <a href="#resumen">Resumen</a>
+      <a href="#funciones">Funciones</a>
+      <a href="#inteligencia">IA</a>
+      <a href="#control">Control</a>
+      <a href="#tecnologia">Tecnología</a>
+      <a href="#entrega">Entrega</a>
+    </nav>
+    <button class="print-button" type="button" onclick="window.print()">Imprimir / PDF</button>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">Informe de presentación · 24 noviembre 2026</p>
+          <h1>La tienda de barrio, <span>más fácil de llevar.</span></h1>
+          <p class="hero-copy">
+            Mi tiendita reúne inventario, ventas y reconocimiento visual de productos en una aplicación móvil
+            pensada para el trabajo diario de un pequeño comercio.
+          </p>
+          <div class="hero-actions">
+            <a class="button-primary" href="#resumen">Conocer el proyecto <span aria-hidden="true">&nbsp;↓</span></a>
+            <a class="button-quiet" href="#entrega">Ver entrega Android</a>
+          </div>
+          <p class="hero-note">Aplicación móvil Android · Datos locales · IA conectada por red Wi-Fi local</p>
+        </div>
+        <div class="phone-wrap" aria-label="Ilustración conceptual de la pantalla de inventario">
+          <div class="phone-screen">
+            <div class="phone-notch"></div>
+            <div class="phone-kicker">INVENTARIO DE BARRIO</div>
+            <div class="phone-title">Mi tiendita</div>
+            <div class="phone-stats">
+              <div class="phone-stat"><strong>Productos</strong><span>Inventario</span></div>
+              <div class="phone-stat"><strong>Unidades</strong><span>Existencias</span></div>
+              <div class="phone-stat"><strong>Alertas</strong><span>Vencimiento</span></div>
+            </div>
+            <div class="phone-section">Productos recientes</div>
+            <div class="phone-item">
+              <div class="phone-product" aria-hidden="true">🥛</div>
+              <div><strong>Leche</strong><span>Existencias disponibles</span></div>
+              <div class="phone-price">Bs ···</div>
+            </div>
+            <div class="phone-item">
+              <div class="phone-product" aria-hidden="true">🥣</div>
+              <div><strong>Yogurt</strong><span>Producto en catálogo</span></div>
+              <div class="phone-price">Bs ···</div>
+            </div>
+            <div class="phone-scan">Escanear producto con IA</div>
+            <div class="phone-tabs"><span>Inventario</span><span>Venta</span><span>Control</span></div>
+          </div>
+          <div class="hero-stamp">INVENTARIO<br>VENTAS<br>IA VISUAL</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-white" id="resumen">
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">01 · El proyecto</p>
+            <h2>Una herramienta práctica para el comercio cotidiano.</h2>
+          </div>
+          <p class="section-lead">
+            La aplicación está diseñada para que la persona que atiende la tienda encuentre productos rápido,
+            arme una compra con varios artículos y mantenga a la vista existencias, ventas y productos por vencer.
+          </p>
+        </div>
+        <div class="intro-grid">
+          <article class="intro-card">
+            <h3>Propósito</h3>
+            <p>
+              Digitalizar tareas que suelen llevarse en papel o de memoria: registrar productos, actualizar
+              cantidades, consultar precios y guardar cada venta. La cámara añade una forma visual de encontrar
+              artículos sin depender de escribir su nombre.
+            </p>
+            <p>
+              Mi tiendita está enfocada en una tienda de barrio: no usa códigos de barras como flujo principal
+              ni requiere un sistema de caja de supermercado.
+            </p>
+          </article>
+          <article class="intro-card quote-card">
+            <span class="eyebrow">Propuesta de valor</span>
+            <blockquote>“Enfocar, reconocer, agregar a la compra y continuar atendiendo.”</blockquote>
+            <cite>Un flujo corto, desde el producto hasta el registro de la venta.</cite>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="funciones">
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">02 · Funciones principales</p>
+            <h2>Lo esencial, en un solo lugar.</h2>
+          </div>
+          <p class="section-lead">
+            Tres áreas conectadas organizan el trabajo: inventario para preparar el catálogo, venta para atender
+            al cliente y Control para revisar el movimiento del negocio.
+          </p>
+        </div>
+        <div class="capability-grid">
+          <article class="capability">
+            <div class="capability-icon" aria-hidden="true">01</div>
+            <h3>Inventario directo</h3>
+            <p>Registra nombre, precio, existencias, foto y fecha de vencimiento opcional. Busca por nombre y agrega unidades a un producto ya creado.</p>
+          </article>
+          <article class="capability">
+            <div class="capability-icon" aria-hidden="true">02</div>
+            <h3>Venta con varios artículos</h3>
+            <p>Selecciona cantidades, suma productos al carrito y consulta el detalle y el total desde un acceso fijo en la pantalla de venta.</p>
+          </article>
+          <article class="capability">
+            <div class="capability-icon" aria-hidden="true">03</div>
+            <h3>Reconocimiento con cámara</h3>
+            <p>La cámara enfoca el envase y consulta la IA. Al reconocerlo, muestra su precio y disponibilidad para elegir cuántas unidades vender.</p>
+          </article>
+          <article class="capability">
+            <div class="capability-icon" aria-hidden="true">04</div>
+            <h3>Alertas de vencimiento</h3>
+            <p>La fecha se selecciona con un calendario. En Android o iOS se puede programar una notificación local tres días antes.</p>
+          </article>
+          <article class="capability">
+            <div class="capability-icon" aria-hidden="true">05</div>
+            <h3>Dos formas de pago</h3>
+            <p>Registra ventas en efectivo o muestra el QR de la tienda y captura una foto del comprobante para registrar el pago QR.</p>
+          </article>
+          <article class="capability">
+            <div class="capability-icon" aria-hidden="true">06</div>
+            <h3>Control con acceso</h3>
+            <p>Una sección protegida reúne resúmenes de ventas, productos más vendidos, comprobantes QR y administración de la cuenta.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-white">
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">03 · Flujo de venta</p>
+            <h2>Del primer producto al cierre de compra.</h2>
+          </div>
+          <p class="section-lead">
+            La venta se construye en el teléfono: cada artículo y cantidad se agrega al detalle, se confirma el total
+            y se registra el método de pago elegido.
+          </p>
+        </div>
+        <div class="steps">
+          <article class="step-card">
+            <h3>Encontrar</h3>
+            <p>Busca el artículo por nombre o abre el escáner y presenta un solo producto a la cámara.</p>
+          </article>
+          <article class="step-card">
+            <h3>Elegir cantidad</h3>
+            <p>Define cuántas unidades quiere el cliente. La aplicación comprueba que haya existencias suficientes.</p>
+          </article>
+          <article class="step-card">
+            <h3>Revisar el detalle</h3>
+            <p>Consulta artículos, cantidades, subtotales y total desde el panel accesible en la misma pantalla.</p>
+          </article>
+          <article class="step-card">
+            <h3>Confirmar y descontar</h3>
+            <p>El registro de la venta y la actualización del inventario se realizan juntos en la base de datos local.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark" id="inteligencia">
+      <div class="wrap ai-layout">
+        <div>
+          <p class="eyebrow">04 · Reconocimiento visual</p>
+          <h2>Una IA que se puede ampliar con nuevos productos.</h2>
+          <p class="ai-copy" style="margin-top:22px">
+            El teléfono toma imágenes temporales de la cámara y las envía al servicio de reconocimiento de la
+            computadora. Para evitar mostrar una lectura inestable, la aplicación exige confianza mínima de
+            <strong>0,70</strong> y dos predicciones consecutivas de la misma clase.
+          </p>
+          <p class="ai-copy">
+            Para registrar una clase nueva, el flujo solicita cinco fotos. La API incorpora las imágenes al conjunto
+            de entrenamiento, actualiza el modelo y devuelve el catálogo de clases. Las clases existentes también
+            pueden reentrenarse con las imágenes guardadas en el dataset.
+          </p>
+          <div class="class-list" aria-label="Clases actuales del modelo">
+            <span class="class-chip">Cerveza Paceña</span>
+            <span class="class-chip">Coca-Cola 2 L</span>
+            <span class="class-chip">Groso</span>
+            <span class="class-chip">Leche</span>
+            <span class="class-chip">Paceña lata</span>
+            <span class="class-chip">Yogurt</span>
+          </div>
+          <div class="callout">
+            La cámara ayuda a localizar un producto conocido por el modelo; el precio y las existencias se obtienen
+            del inventario de esa tienda. Si no está registrado allí, se informa que aún no tiene precio disponible.
+          </div>
+        </div>
+        <div>
+          <div class="ai-stats">
+            <div class="ai-stat"><strong>6</strong><span>clases de productos en el catálogo actual del modelo</span></div>
+            <div class="ai-stat"><strong>544</strong><span>archivos de imagen presentes en el dataset local</span></div>
+            <div class="ai-stat"><strong>5 fotos</strong><span>requeridas para entrenar una clase nueva</span></div>
+            <div class="ai-stat"><strong>2 lecturas</strong><span>iguales antes de confirmar el reconocimiento</span></div>
+          </div>
+          <p class="ai-copy" style="margin:15px 0 0;font-size:.78rem">
+            Conteo del dataset del proyecto al 24/11/2026; incluye 494 archivos en la clase Yogurt.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="control">
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">05 · Control de la tienda</p>
+            <h2>Una vista privada para entender las ventas.</h2>
+          </div>
+          <p class="section-lead">
+            La persona responsable puede revisar periodos y administrar la configuración necesaria para los cobros QR,
+            sin mezclar ese panel con la atención de cada venta.
+          </p>
+        </div>
+        <div class="control-grid">
+          <article class="info-card">
+            <span class="mini-label">Resumen interactivo</span>
+            <h3>Semana, mes y año</h3>
+            <p>Al elegir un periodo, Control calcula ingresos registrados, número de compras y unidades vendidas.</p>
+            <ul>
+              <li>Gráfico seleccionable con los diez productos más vendidos.</li>
+              <li>Detalle de unidades e ingresos por producto seleccionado.</li>
+              <li>Los datos provienen de ventas guardadas localmente en el teléfono.</li>
+            </ul>
+          </article>
+          <article class="info-card">
+            <span class="mini-label">Acceso del propietario</span>
+            <h3>Cuenta editable</h3>
+            <p>Existe una cuenta inicial para entrar al panel. Después se puede cambiar el usuario y la contraseña; se solicita la contraseña vigente para aplicar el cambio.</p>
+            <ul>
+              <li>La app guarda las credenciales locales como hash con sal.</li>
+              <li>Conviene sustituir la cuenta inicial antes de entregar el teléfono.</li>
+            </ul>
+          </article>
+          <article class="info-card">
+            <span class="mini-label">Configuración de cobro</span>
+            <h3>QR propio de la tienda</h3>
+            <p>El propietario carga desde la galería el QR de la cuenta donde recibe pagos; la pantalla de venta lo presenta al cliente.</p>
+          </article>
+          <article class="info-card">
+            <span class="mini-label">Registro y evidencia</span>
+            <h3>Comprobantes QR</h3>
+            <p>Después de tomar la foto del comprobante, la app registra la venta y actualiza inventario. Control muestra los últimos 50 pagos QR con su detalle y la imagen guardada.</p>
+          </article>
+        </div>
+        <div class="notice">
+          <span class="notice-mark" aria-hidden="true">!</span>
+          <p><strong>Alcance del pago QR:</strong> la aplicación conserva la foto como respaldo y registra la operación; no se conecta al banco ni verifica automáticamente que la transferencia haya sido acreditada. El encargado debe comprobar el pago antes de fotografiar el comprobante.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-white" id="tecnologia">
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">06 · Tecnología y funcionamiento</p>
+            <h2>Móvil en la tienda; reconocimiento en la red local.</h2>
+          </div>
+          <p class="section-lead">
+            La arquitectura separa la experiencia de venta del procesamiento del modelo. Los registros comerciales
+            viven en el dispositivo y la API de IA se ejecuta en una computadora accesible desde la misma red.
+          </p>
+        </div>
+        <div class="architecture">
+          <article class="tech-card">
+            <span>01 · Aplicación</span>
+            <h3>Expo + React Native</h3>
+            <p>Interfaz móvil con cámara, selector de fotos, notificaciones locales y navegación entre Inventario, Registrar venta y Control.</p>
+          </article>
+          <article class="tech-card">
+            <span>02 · Datos del negocio</span>
+            <h3>SQLite en el teléfono</h3>
+            <p>Productos, ventas, líneas de compra y configuración se guardan en la base de datos local del dispositivo.</p>
+          </article>
+          <article class="tech-card">
+            <span>03 · IA local</span>
+            <h3>Python + TensorFlow</h3>
+            <p>La API local ofrece reconocimiento, entrenamiento de nuevas clases y reentrenamiento del catálogo del modelo.</p>
+          </article>
+        </div>
+        <div class="notice">
+          <span class="notice-mark" aria-hidden="true">i</span>
+          <p>
+            <strong>Requisito de uso del escáner:</strong> la computadora que ejecuta la API y el teléfono deben estar
+            conectados a la misma Wi-Fi. El escáner no funcionará si la URL local no está configurada o si el servicio
+            no está activo. Los datos de inventario y ventas no se sincronizan automáticamente entre teléfonos.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="entrega">
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">07 · Entrega y próximos pasos</p>
+            <h2>La versión Android ya está compilada.</h2>
+          </div>
+          <p class="section-lead">
+            Se generó una APK de lanzamiento y se verificó su firma. Está lista para instalación y pruebas internas
+            en un dispositivo Android.
+          </p>
+        </div>
+        <div class="delivery">
+          <article class="delivery-card">
+            <h3>Datos de la aplicación</h3>
+            <div class="spec-row"><span>Nombre visible</span><span>Proyecto-Final / Mi tiendita</span></div>
+            <div class="spec-row"><span>Paquete Android</span><span>com.anonymous.ProyectoFinal</span></div>
+            <div class="spec-row"><span>Versión</span><span>1.0.0 · código 1</span></div>
+            <div class="spec-row"><span>Tamaño APK</span><span>93,5 MB</span></div>
+            <div class="spec-row"><span>Firma verificada</span><span>APK Signature Scheme v2</span></div>
+            <div class="spec-row"><span>Firma de esta compilación</span><span>Clave de depuración</span></div>
+            <p style="margin:18px 0 0">
+              <a class="button-primary" href="android/app/build/outputs/apk/release/app-release.apk" download="Mi-tiendita-1.0.0.apk">Descargar APK</a>
+            </p>
+          </article>
+          <article class="delivery-card">
+            <h3>Instalación y puesta en marcha</h3>
+            <p>Con Android Debug Bridge (ADB) y un teléfono conectado por USB con depuración activada:</p>
+            <code class="command">adb install -r "C:\Users\Rey Paimon\Documents\Aplicacion Movil\Proyecto-Final\android\app\build\outputs\apk\release\app-release.apk"</code>
+            <p style="margin:17px 0 0;color:#64776f;font-size:.86rem">
+              Para iniciar la app de desarrollo con la IA local, usar <code>npm start</code> en el proyecto. El primer
+              inicio requiere configurar la API con <code>API_TIENDA\setup_api.bat</code>; el launcher inicia la API y
+              espera a que responda antes de abrir Expo.
+            </p>
+          </article>
+        </div>
+        <div class="notice">
+          <span class="notice-mark" aria-hidden="true">!</span>
+          <p>
+            <strong>Antes de publicar:</strong> esta APK está firmada con una clave de depuración para pruebas; no es
+            una firma de distribución de Play Store. Se recomienda configurar una clave de firma de producción,
+            rotar la cuenta inicial de Control y probar permisos, notificaciones y cámara en el teléfono objetivo.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark">
+      <div class="wrap">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">08 · Evolución recomendada</p>
+            <h2>Una base lista para seguir creciendo.</h2>
+          </div>
+          <p class="section-lead">
+            La siguiente etapa puede enfocarse en proteger la operación, mejorar la continuidad de los datos y ampliar
+            el reconocimiento con imágenes variadas de los productos reales de cada tienda.
+          </p>
+        </div>
+        <div class="roadmap">
+          <article class="roadmap-card">
+            <span>Prioridad 01</span>
+            <h3>Preparar distribución</h3>
+            <p>Crear firma de producción, respaldar los registros y definir cómo restaurarlos al cambiar de teléfono.</p>
+          </article>
+          <article class="roadmap-card">
+            <span>Prioridad 02</span>
+            <h3>Fortalecer la conexión</h3>
+            <p>Proteger la API local con autenticación y transporte seguro si el uso deja de limitarse a una red de confianza.</p>
+          </article>
+          <article class="roadmap-card">
+            <span>Prioridad 03</span>
+            <h3>Mejorar el modelo</h3>
+            <p>Agregar fotos con distintos fondos, ángulos e iluminación y comprobar el reconocimiento en condiciones reales.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-row">
+      <span><strong style="color:white">Mi tiendita</strong> · Informe de presentación de la aplicación</span>
+      <span>Documento actualizado el 24 de noviembre de 2026 · Generado desde la implementación actual</span>
+    </div>
+  </footer>
+
+  <script>
+    const progress = document.getElementById('progress');
+    function updateProgress() {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const percentage = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+      progress.style.width = `${Math.min(100, Math.max(0, percentage))}%`;
+    }
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress);
+    updateProgress();
+  </script>
+</body>
+</html>
